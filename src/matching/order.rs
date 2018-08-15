@@ -17,3 +17,7 @@ impl Order {
 		}
 	}
 }
+
+pub trait SidedOrder {
+	fn new(order: Order) -> Self;
+}

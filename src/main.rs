@@ -5,6 +5,6 @@ mod matching;
 use matching::*;
 
 fn main() {
-	let bid_order = BidOrder::new("11", "2");
+	let bid_order = BidOrder::new(Order::new("11", "2"));
 	println!("{:?}", bid_order);
 }

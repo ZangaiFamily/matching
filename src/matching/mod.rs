@@ -10,3 +10,6 @@ pub use self::ask_order::AskOrder;
 
 mod order_book;
 pub use self::order_book::OrderBook;
+
+mod market;
+pub use self::market::Market;

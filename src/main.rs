@@ -1,10 +1,11 @@
 extern crate rust_decimal;
 use rust_decimal::Decimal;
 
+mod structs;
+use structs::*;
+
 mod matching;
-use matching::*;
 
 fn main() {
-	let bid_order = BidOrder::new(Order::new("11", "2"));
-	println!("{:?}", bid_order);
+
 }

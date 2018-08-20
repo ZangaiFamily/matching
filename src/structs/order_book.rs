@@ -36,43 +36,6 @@ impl OrderBook where {
 		}
 	}
 
-	pub fn consume(&mut self, order: &mut Order) {
-		while !order.is_fulfilled() {
-			match self.limit_orders.peek_mut() {
-				Some(top_order) => {
-					//let ordering = order.price.cmp(&top_order.price);
-					//if ordering == self.price_requirement || ordering == Ordering::Equal {
-					//	self.process_volume(order, &mut top_order);
-					//	if top_order.is_fulfilled() { self.limit_orders.pop(); }
-					//} else {
-					//	break
-					//}
-				},
-				None => {
-					break;
-				}
-			}
-		}
-
-		while !order.is_fulfilled() {
-			match self.market_orders.front_mut() {
-				Some(top_order) => {
-
-				},
-				None => {
-					break
-				}
-			}
-		}
-	}
-
-	pub fn process_volume(&self, order_a: &mut Order, order_b: &mut Order) {
-		let min_volume = cmp::min(order_a.volume_remained(), order_b.volume_remained());
-		order_a.volume -= min_volume;
-		order_b.volume -= min_volume;
-		// broadcast trade
-	}
-
 }
 
 #[test]

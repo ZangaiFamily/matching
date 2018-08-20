@@ -2,13 +2,13 @@
 use super::*;
 
 pub struct Market {
-	id: u64,
-	ask_book: OrderBook,
-	bid_book: OrderBook
+	pub id: u64,
+	pub ask_book: OrderBook,
+	pub bid_book: OrderBook
 }
 
 impl Market {
-	fn new(id: u64) -> Market {
+	pub fn new(id: u64) -> Market {
 		Market {
 			id: id,
 			ask_book: OrderBook::new(OrderSide::Ask),
@@ -16,7 +16,7 @@ impl Market {
 		}
 	}
 
-	fn add_order(&mut self, order: Order) {
+	pub fn add_order(&mut self, order: Order) {
 		match order.side {
 			OrderSide::Ask => self.ask_book.add_order(order),
 			OrderSide::Bid => self.bid_book.add_order(order)

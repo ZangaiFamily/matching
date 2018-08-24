@@ -1,6 +1,7 @@
 use std::cmp::Ordering;
 use rust_decimal::Decimal;
 use std::str::FromStr;
+use ds::{WithId};
 
 #[derive(Debug, PartialEq)]
 pub enum OrderKind {
@@ -70,6 +71,12 @@ impl PartialEq for Order {
 }
 
 impl Eq for Order {}
+
+impl WithId for Order {
+	fn id(&self) -> u64 {
+		self.id
+	}
+}
 
 #[test]
 fn lower_price_should_be_greater_for_ask_order() {

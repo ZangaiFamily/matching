@@ -1,16 +1,16 @@
 use std::collections::LinkedList;
-use std::collections::BinaryHeap;
 use std::cmp::Ord;
 use std::cmp::Ordering;
 use std::cmp;
 use rust_decimal::Decimal;
 use super::*;
+use ds::{Heap};
 
 #[derive(Debug)]
 pub struct OrderBook {
 	pub side: OrderSide,
 	pub price_requirement: Ordering,
-	pub limit_orders: BinaryHeap<Order>,
+	pub limit_orders: Heap<Order>,
 	pub market_orders: LinkedList<Order>
 }
 
@@ -23,7 +23,7 @@ impl OrderBook where {
 		OrderBook {
 			side: side,
 			price_requirement: price_requirement,
-			limit_orders: BinaryHeap::new(),
+			limit_orders: Heap::new(),
 			market_orders: LinkedList::new()
 		}
 	}

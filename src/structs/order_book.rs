@@ -4,14 +4,14 @@ use std::cmp::Ordering;
 use std::cmp;
 use rust_decimal::Decimal;
 use super::*;
-use ds::{Heap};
+use ds::{Heap, List};
 
 #[derive(Debug)]
 pub struct OrderBook {
 	pub side: OrderSide,
 	pub price_requirement: Ordering,
 	pub limit_orders: Heap<Order>,
-	pub market_orders: LinkedList<Order>
+	pub market_orders: List<Order>
 }
 
 impl OrderBook where {
@@ -24,7 +24,7 @@ impl OrderBook where {
 			side: side,
 			price_requirement: price_requirement,
 			limit_orders: Heap::new(),
-			market_orders: LinkedList::new()
+			market_orders: List::new()
 		}
 	}
 

@@ -165,6 +165,8 @@ fn test_matching_market_order() {
 
 	start_match(order, &mut market);
 
+	assert_eq!(market.bid_book.market_orders.len(), 1);
+
 	assert_eq!(market.bid_book.market_orders.front().unwrap().id, 4);
 	assert_eq!(market.bid_book.market_orders.len(), 1);
 	assert_eq!(market.ask_book.limit_orders.peek(), None);

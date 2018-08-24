@@ -81,6 +81,7 @@ impl<T: Ord + WithId> Heap<T> {
 		let len = self.vec.len();
 		let idx = self.map[&id];
 		self.swap(idx, len - 1);
+		self.map.remove(&((len - 1) as u64));
 		if idx > 0 {
 			if self.vec[self.parent(idx)] < self.vec[idx] {
 				self.sift_up(idx);
@@ -105,6 +106,7 @@ impl<T: Ord + WithId> Heap<T> {
 		} else {
 			self.swap(0, len - 1);
 			self.vec.pop();
+			self.map.remove(&((len - 1) as u64));
 			self.sift_down(0);
 		}
 	}

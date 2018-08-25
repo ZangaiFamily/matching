@@ -79,18 +79,26 @@ impl<T: Ord + WithId> Heap<T> {
 
 	pub fn remove(&mut self, id: u64) {
 		let last_index = self.vec.len() - 1;
-		let idx = self.map[&id];
-		self.swap(idx, last_index);
-		self.vec.pop();
-		self.map.remove(&id);
-		if idx > 0 {
-			if self.vec[self.parent(idx)] < self.vec[idx] {
-				self.sift_up(idx);
-			} else {
-				self.sift_down(idx);
-			}
+		let idx: usize = match self.map.get(&id) {
+			Some(x) => x.to_owned(),
+			None => return
+		};
+		if idx == last_index {
+			self.vec.pop();
+			self.map.remove(&id);
 		} else {
-			self.sift_down(0);
+			self.swap(idx, last_index);
+			self.vec.pop();
+			self.map.remove(&id);
+			if idx > 0 {
+				if self.vec[self.parent(idx)] < self.vec[idx] {
+					self.sift_up(idx);
+				} else {
+					self.sift_down(idx);
+				}
+			} else {
+				self.sift_down(0);
+			}
 		}
 	}
 
@@ -226,5 +234,28 @@ fn test_remove() {
 	assert_eq!(heap.vec.len(), 0);
 	assert_eq!(heap.map.len(), 0);
 	assert_eq!(heap.peek(), None);
+}
 
+#[test]
+fn test_remove_not_existed() {
+	let mut heap = Heap::new();
+	heap.push(Order{id: 1, price: 10});
+
+	heap.remove(2);
+	assert_eq!(heap.vec.len(), 1);
+	assert_eq!(heap.map.len(), 1);
+}
+
+#[test]
+fn test_remove_last_one() {
+	let mut heap = Heap::new();
+	heap.push(Order{id: 1, price: 10});
+	heap.push(Order{id: 2, price: 20});
+	heap.push(Order{id: 3, price: 30});
+	heap.push(Order{id: 4, price: 15});
+	heap.push(Order{id: 5, price: 5});
+
+	heap.remove(5);
+	assert_eq!(heap.vec.len(), 4);
+	assert_eq!(heap.map.len(), 4);
 }

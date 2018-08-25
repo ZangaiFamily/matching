@@ -59,7 +59,7 @@ pub fn start_match (mut order: Order, market: &mut Market) {
 	}
 
 	if !order.is_fulfilled() {
-		println!("fulfilled");
+		//println!("fulfilled");
 		book.add_order(order);
 	}
 }
@@ -68,8 +68,9 @@ pub fn subtract_volume(order_a: &mut Order, order_b: &mut Order) -> (bool, bool)
 	let min_volume = cmp::min(order_a.volume_remained(), order_b.volume_remained());
 	order_a.filled += min_volume;
 	order_b.filled += min_volume;
-	(order_a.is_fulfilled(), order_b.is_fulfilled())
 	// broadcast trade
+	//println!("deal");
+	(order_a.is_fulfilled(), order_b.is_fulfilled())
 }
 
 #[test]

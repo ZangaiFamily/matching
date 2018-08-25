@@ -36,6 +36,14 @@ impl OrderBook where {
 		}
 	}
 
+	pub fn cancel_order(&mut self, order: Order) {
+		assert!(order.side == self.side);
+		match order.kind {
+			OrderKind::Limit => self.limit_orders.remove(order.id),
+			OrderKind::Market => self.market_orders.remove(order.id)
+		}
+	}
+
 }
 
 #[test]

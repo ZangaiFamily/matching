@@ -23,6 +23,13 @@ impl Market {
 		}
 	}
 
+	pub fn cancel_order(&mut self, order: Order) {
+		match order.side {
+			OrderSide::Ask => self.ask_book.cancel_order(order),
+			OrderSide::Bid => self.bid_book.cancel_order(order)
+		}
+	}
+
 	//fn match_order(&mut self, order: Order) {
 	//	let (book, counter_book) = match order.side {
 	//		OrderSide::Ask => (self.ask_book, self.bid_book),

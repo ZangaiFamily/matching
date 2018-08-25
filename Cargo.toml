@@ -5,3 +5,4 @@ authors = ["cichol <cichol@live.cn>"]
 
 [dependencies]
 rust_decimal = "0.10.1"
+serde_json = "1.0"

@@ -167,3 +167,8 @@ fn test_swap() {
 	assert_eq!(heap.map[&1], 0);
 	assert_eq!(heap.map[&2], 1);
 }
+
+#[test]
+fn test_remove() {
+
+}

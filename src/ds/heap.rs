@@ -78,16 +78,19 @@ impl<T: Ord + WithId> Heap<T> {
 	}
 
 	pub fn remove(&mut self, id: u64) {
-		let len = self.vec.len();
+		let last_index = self.vec.len() - 1;
 		let idx = self.map[&id];
-		self.swap(idx, len - 1);
-		self.map.remove(&((len - 1) as u64));
+		self.swap(idx, last_index);
+		self.vec.pop();
+		self.map.remove(&id);
 		if idx > 0 {
 			if self.vec[self.parent(idx)] < self.vec[idx] {
 				self.sift_up(idx);
 			} else {
 				self.sift_down(idx);
 			}
+		} else {
+			self.sift_down(0);
 		}
 	}
 
@@ -100,15 +103,8 @@ impl<T: Ord + WithId> Heap<T> {
 	}
 
 	pub fn pop(&mut self) {
-		let len = self.vec.len();
-		if len == 1 {
-			self.vec.pop();
-		} else {
-			self.swap(0, len - 1);
-			self.vec.pop();
-			self.map.remove(&((len - 1) as u64));
-			self.sift_down(0);
-		}
+		let id = self.peek().unwrap().id();
+		self.remove(id)
 	}
 
 	pub fn len(&self) -> usize {
@@ -116,6 +112,7 @@ impl<T: Ord + WithId> Heap<T> {
 	}
 }
 
+#[derive(Debug)]
 struct Order {
 	id: u64,
 	price: u64
@@ -169,6 +166,65 @@ fn test_swap() {
 }
 
 #[test]
+fn test_push() {
+	let mut heap = Heap::new();
+	heap.push(Order{id: 1, price: 10});
+	assert_eq!(heap.peek().unwrap().id, 1);
+	assert_eq!(heap.vec.len(), 1);
+	assert_eq!(heap.map.len(), 1);
+	assert_eq!(heap.map[&1], 0);
+	heap.push(Order{id: 2, price: 20});
+	assert_eq!(heap.peek().unwrap().id, 2);
+	assert_eq!(heap.vec.len(), 2);
+	assert_eq!(heap.map.len(), 2);
+	assert_eq!(heap.map[&2], 0);
+	assert_eq!(heap.map[&1], 1);
+}
+
+#[test]
+fn test_pop() {
+	let mut heap = Heap::new();
+	heap.push(Order{id: 1, price: 10});
+	heap.push(Order{id: 2, price: 20});
+	heap.push(Order{id: 3, price: 30});
+	heap.push(Order{id: 4, price: 15});
+	heap.push(Order{id: 5, price: 5});
+
+	assert_eq!(heap.peek().unwrap().id, 3);
+	heap.pop();
+	assert_eq!(heap.peek().unwrap().id, 2);
+	assert_eq!(heap.vec.len(), 4);
+	assert_eq!(heap.map.len(), 4);
+}
+
+#[test]
 fn test_remove() {
+	let mut heap = Heap::new();
+	heap.push(Order{id: 1, price: 10});
+	heap.push(Order{id: 2, price: 20});
+	heap.push(Order{id: 3, price: 30});
+	heap.push(Order{id: 4, price: 15});
+	heap.push(Order{id: 5, price: 5});
+
+	assert_eq!(heap.peek().unwrap().id, 3);
+	heap.remove(3);
+	assert_eq!(heap.peek().unwrap().id, 2);
+	assert_eq!(heap.vec.len(), 4);
+	assert_eq!(heap.map.len(), 4);
+	heap.remove(4);
+	assert_eq!(heap.peek().unwrap().id, 2);
+	assert_eq!(heap.vec.len(), 3);
+	assert_eq!(heap.map.len(), 3);
+	heap.remove(2);
+	assert_eq!(heap.peek().unwrap().id, 1);
+	assert_eq!(heap.vec.len(), 2);
+	assert_eq!(heap.map.len(), 2);
+
+	let mut heap = Heap::new();
+	heap.push(Order{id: 1, price: 10});
+	heap.remove(1);
+	assert_eq!(heap.vec.len(), 0);
+	assert_eq!(heap.map.len(), 0);
+	assert_eq!(heap.peek(), None);
 
 }

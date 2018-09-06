@@ -17,18 +17,22 @@ impl<T: Ord + WithId> Heap<T> {
 		}
 	}
 
+	#[inline]
 	pub fn parent(&self, idx: usize) -> usize {
 		(idx - 1) / 2
 	}
 
+	#[inline]
 	pub fn left(&self, idx: usize) -> usize {
 		2 * idx + 1
 	}
 
+	#[inline]
 	pub fn right(&self, idx: usize) -> usize {
 		2 * idx + 2
 	}
 
+	#[inline]
 	pub fn sift_up(&mut self, from: usize) -> usize {
 		let start = 0;
 		let mut pos = from;
@@ -44,6 +48,7 @@ impl<T: Ord + WithId> Heap<T> {
 		pos
 	}
 
+	#[inline]
 	pub fn sift_down(&mut self, from: usize) {
 		let end = self.vec.len();
 		let mut pos = from;
@@ -64,6 +69,7 @@ impl<T: Ord + WithId> Heap<T> {
 		}
 	}
 
+	#[inline]
 	pub fn push(&mut self, elem: T) {
 		let len = self.vec.len();
 		self.map.insert(elem.id(), len);
@@ -71,12 +77,14 @@ impl<T: Ord + WithId> Heap<T> {
 		self.sift_up(len);
 	}
 
+	#[inline]
 	pub fn swap(&mut self, idx_a: usize, idx_b: usize) {
 		self.map.insert(self.vec[idx_a].id(), idx_b);
 		self.map.insert(self.vec[idx_b].id(), idx_a);
 		self.vec.swap(idx_a, idx_b);
 	}
 
+	#[inline]
 	pub fn remove(&mut self, id: u64) {
 		let last_index = self.vec.len() - 1;
 		let idx: usize = match self.map.get(&id) {
@@ -102,19 +110,23 @@ impl<T: Ord + WithId> Heap<T> {
 		}
 	}
 
+	#[inline]
 	pub fn peek(&self) -> Option<&T> {
 		self.vec.get(0 as usize)
 	}
 
+	#[inline]
 	pub fn peek_mut(&mut self) -> Option<&mut T> {
 		self.vec.get_mut(0 as usize)
 	}
 
+	#[inline]
 	pub fn pop(&mut self) {
 		let id = self.peek().unwrap().id();
 		self.remove(id)
 	}
 
+	#[inline]
 	pub fn len(&self) -> usize {
 		self.vec.len()
 	}

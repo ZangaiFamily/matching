@@ -28,18 +28,22 @@ impl<T: WithId> List<T> {
 		}
 	}
 
+	#[inline]
 	pub fn len(&self) -> usize {
 		self.len
 	}
 
+	#[inline]
 	pub fn front(&self) -> Option<&T> {
 		self.head.and_then(|id| self.map.get(&id).map(|x| &x.data))
 	}
 
+	#[inline]
 	pub fn front_mut(&mut self) -> Option<&mut T> {
 		self.head.and_then(move |id| self.map.get_mut(&id).map(|x| &mut x.data))
 	}
 
+	#[inline]
 	pub fn push_back(&mut self, elem: T) {
 		let id = elem.id();
 		if self.len == 0 {
@@ -63,6 +67,7 @@ impl<T: WithId> List<T> {
 		self.len += 1;
 	}
 
+	#[inline]
 	pub fn remove(&mut self, id: u64) {
 		let (prev, next) = {
 			let node = &self.map[&id];
@@ -90,6 +95,7 @@ impl<T: WithId> List<T> {
 		self.map.remove(&id);
 	}
 
+	#[inline]
 	pub fn pop_front(&mut self) {
 		let head = self.head.unwrap();
 		self.remove(head)
